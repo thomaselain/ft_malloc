@@ -16,10 +16,16 @@ void		*ft_malloc(size_t size)
 {
 	void	*new_ptr;
 
-	g.tiny = mmap(NULL, sizeof(t_bucket), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-
-	add_tiny_bucket();
-	
+	if (g.is_set != TRUE)
+	{
+		g.is_set = TRUE;
+		add_tiny_bucket();
+	}
+	printf("coucou truc\n");
+	if (g.tiny != NULL)
+		printf("size du truc : %d\n", g.tiny->size);
+	else
+		printf("tiny -> NULL\n");
 	new_ptr = NULL;
 	// Rajouter la verification
 	new_ptr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);

@@ -21,6 +21,7 @@ int main(int ac, char **av)
 		;
 	str1 = (char*)ft_malloc(sizeof(char) * 10);
 	str2 = (char*)ft_malloc(sizeof(char) * 10);
+	str1 = "salut1";
 	printf("%s\n", str1);
 	str2 = "salut2";
 	printf("%s\n", str2);
