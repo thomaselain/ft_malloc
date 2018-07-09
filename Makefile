@@ -14,6 +14,9 @@ NAME := ft_malloc
 PATH_SRC := src/
 INC := -I includes/
 
+WHITE = \e[0m
+GREEN = \e[32m
+
 CC := gcc
 FLAGS := $(INC) 
 # -g -Wall -Wextra -Werror
@@ -36,8 +39,8 @@ $(NAME): $(OBJ)
 
 %.o: %.c
 	@$(CC) $(FLAGS) $(HEADERS) -c -o $@ $^
-	@printf "[\e[32m$(NAME) object\e[0m]\e[32m--\e[0m--\e[32m--\e[0m> : $@"
-	@printf "\e[0m\n"
+	@printf "[$(GREEN)$(NAME) object$(WHITE)]$(GREEN)--$(WHITE)--$(GREEN)--$(WHITE)> : [$(GREEN)✓$(WHITE)] : $@"
+	@printf "$(WHITE)\n"
 
 clean:
 	@make -C libft/ clean
