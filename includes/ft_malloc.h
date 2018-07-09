@@ -25,24 +25,36 @@
 #		 include <stdio.h>
 
 /*
-*	Tailles des buckets
+ *	Tailles des buckets
 */
 
 #define	TINY 	1
-#define	MEDIUM 	2
+#define	SMALL 	2
 #define	LARGE 	3
 
 /*
-*	Remplacer les Booleens
+ *	N est la taille a partir de laquelle on cree un Small bucket au lieu
+ *		d'un Tiny
+ *	N est la taille a partir de laquelle on cree un Large bucket au lieu
+ *		d'un Medium
+ *	
 */
 
+#define N 		(2 * getpagesize())
+#define M 		(5 * getpagesize())
+
+/*
+ *	Remplacer les Booleens
+*/
+
+#define	FALSE 	0
 #define	TRUE  	1
-#define	FALSE 	2
 
 typedef struct 			s_zone
 {
 	size_t				n_bytes;
-	int					free;					
+	int					free;	
+	struct s_zone		*next;				
 }						t_zone;
 
 typedef struct 			s_bucket
@@ -50,26 +62,30 @@ typedef struct 			s_bucket
 	size_t				allocated;
 	size_t				remaining;
 	int					size;
-	t_zone				zone;
+	t_zone				*zone;
 	struct s_bucket		*next;
 }						t_bucket;
 
 
 typedef struct 			s_global
 {
+	t_zone				*new_ptr;
 	int					is_set;
 	t_bucket			*tiny;
-	t_bucket			*medium;
+	t_bucket			*small;
 	t_bucket			*large;
 }						t_global;
 
 extern					t_global g;
-
+void 	print_debug(t_bucket *b);
+void					clea_buckets(void);
 void					ft_free(void *ptr);
 void					*ft_malloc(size_t size);
 void					*ft_realloc(void *ptr, size_t size);
-void					add_tiny_bucket(void);
-void					add_medium_bucket(void);
-void					add_large_bucket(void);
+void					add_tiny_bucket(size_t size);
+void					add_small_bucket(size_t size);
+void					add_large_bucket(size_t size);
+void					new_zone(size_t size, t_bucket *b);
+t_bucket				*find_space(t_bucket *b, size_t size);
 
 #endif
