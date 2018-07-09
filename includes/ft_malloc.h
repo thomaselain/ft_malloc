@@ -63,7 +63,7 @@ typedef struct 			s_global
 	t_bucket			*large;
 }						t_global;
 
-static					t_global g;
+extern					t_global g;
 
 void					ft_free(void *ptr);
 void					*ft_malloc(size_t size);

@@ -17,6 +17,7 @@ void			add_tiny_bucket(void)
 	t_bucket 	*tmp;
 	t_bucket	*new;
 
+
 	if (!g.tiny)
 	{
 		printf("%d\n", g.is_set);

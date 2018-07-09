@@ -12,6 +12,8 @@
 
 #include <ft_malloc.h>
 
+t_global	g;
+
 void		*ft_malloc(size_t size)
 {
 	void	*new_ptr;
