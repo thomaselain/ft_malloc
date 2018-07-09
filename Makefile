@@ -6,7 +6,7 @@
 #    By: telain <telain@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/22 17:19:39 by telain            #+#    #+#              #
-#    Updated: 2016/06/23 19:33:22 by telain           ###   ########.fr        #
+#    Updated: 2018/07/09 20:54:03 by telain           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ FLAGS := $(INC)
 SRC := 	main.c\
 		ft_malloc.c\
 		buckets.c\
+		zones.c\
 
 LIBS := libft/libft.a
 
@@ -52,7 +53,8 @@ fclean: clean
 
 re: fclean all
 
-go: re
+go:
+	make
 	./$(NAME)
 
 .PHONY: clean fclean

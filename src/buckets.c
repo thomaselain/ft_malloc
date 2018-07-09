@@ -25,18 +25,19 @@ void		print_debug(t_bucket *b)
 {
 	t_zone		*tmp;
 
-	printf("{\n  size                 : %d\n  Allocated memory     : %zu\n  Not allocated memory : %zu\n", b->size, b->allocated, b->remaining);
+	printf("{\n  size                 : %zu\n  Allocated memory     : %zu\n  Not allocated memory : %zu\n", b->size, b->allocated, b->remaining);
 	printf("  Zones created        : \n");
 	tmp = b->zone;
 	while (tmp)
 	{
-		printf("\t{\n\t  %zu\n}\n", tmp->n_bytes);
+		printf("\t{\n\t  bytes : %zu\n\t}\n", tmp->n_bytes);
 		tmp = tmp->next;
 	}
+	printf("}\n");
 
 }
 
-void			add_tiny_bucket(size_t size)
+t_bucket		*add_tiny_bucket(size_t size)
 {
 	t_bucket 	*tmp;
 	t_bucket	*new;
@@ -45,25 +46,26 @@ void			add_tiny_bucket(size_t size)
 	{
 		g.tiny = (t_bucket*)mmap(NULL, sizeof(t_bucket), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 		g.tiny->size = N;
-		g.tiny->remaining = N - size;
-		g.tiny->allocated = size;
+		g.tiny->remaining = N;
+		g.tiny->allocated = 0;
 		printf("\e[32mFirst tiny bucket created\n\e[0m");
-		return ;
+		return g.tiny;
 	}
 	new = (t_bucket*)mmap(NULL, sizeof(t_bucket), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	new->size = N;
-	new->remaining = N - size;
-	new->allocated = size;
+	new->remaining = N;
+	new->allocated = 0;
 	tmp = g.tiny;
 	while (tmp && tmp->next)
 	{
-		printf("%d\n", tmp->size);
+		printf("%zu\n", tmp->size);
 		tmp = tmp->next;
 	}
 	tmp->next = new;
+	return (new);
 }
 
-void			add_small_bucket(size_t size)
+t_bucket		*add_small_bucket(size_t size)
 {
 	t_bucket 	*tmp;
 	t_bucket	*new;
@@ -72,25 +74,26 @@ void			add_small_bucket(size_t size)
 	{
 		g.small = (t_bucket*)mmap(NULL, sizeof(t_bucket), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 		g.small->size = M;
-		g.small->remaining = M - size;
-		g.small->allocated = size;
+		g.small->remaining = M;
+		g.small->allocated = 0;
 		printf("\e[32mFirst small bucket created\n\e[0m");
-		return ;
+		return g.small;
 	}
 	new = (t_bucket*)mmap(NULL, sizeof(t_bucket), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	new->size = M;
-	new->allocated = size;
-	new->remaining = M - size;
+	new->remaining = M;
+	new->allocated = 0;
 	tmp = g.small;
 	while (tmp && tmp->next)
 	{
-		printf("%d\n", tmp->size);
+		printf("%zu\n", tmp->size);
 		tmp = tmp->next;
 	}
 	tmp->next = new;
+	return (new);
 }
 
-void			add_large_bucket(size_t size)
+t_bucket		*add_large_bucket(size_t size)
 {
 	t_bucket 	*tmp;
 	t_bucket	*new;
@@ -99,21 +102,23 @@ void			add_large_bucket(size_t size)
 	{
 		g.large = (t_bucket*)mmap(NULL, sizeof(t_bucket), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 		g.large->size = size;
-		g.large->allocated = size;
-		g.large->remaining = 0;
+		g.large->allocated = 0;
+		g.large->remaining = size;
 		printf("\e[32mFirst large bucket created\n\e[0m");
-		return ;
+		return g.large;
 	}
 	new = (t_bucket*)mmap(NULL, sizeof(t_bucket), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	new->size = size;
-	new->allocated = size;
+	new->allocated = 0;
+	new->remaining = size;
 	tmp = g.large;
 	while (tmp && tmp->next)
 	{
-		printf("%d\n", tmp->size);
+		printf("%zu\n", tmp->size);
 		tmp = tmp->next;
 	}
 	tmp->next = new;
+	return (new);
 }
 
 t_bucket		*find_space(t_bucket *b, size_t size)
@@ -123,9 +128,9 @@ t_bucket		*find_space(t_bucket *b, size_t size)
 	tmp = b;
 	while (tmp)
 	{
-		if (tmp->remaining > size)
-			return tmp;
+		if (tmp->remaining >= size)
+			return (tmp);
 		tmp = tmp->next;
 	}
-	return (NULL);
+	return (tmp);
 }

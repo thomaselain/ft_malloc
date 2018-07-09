@@ -12,23 +12,30 @@
 
 #include <ft_malloc.h>
 
-void		new_zone(size_t size, t_bucket *b)
+t_zone			*new_zone(size_t size, t_bucket *b)
 {
 	t_zone	*new;
 	t_zone	*tmp;
 	size_t	offset;
 
+	tmp = b->zone;
 	offset = 0;
-	tmp = b->zones;
-	while (tmp)
+	if (tmp)
+		offset = tmp->n_bytes;
+	while (tmp && tmp->next)
 	{
-		offset += tmp->n_bytes;
+		offset += tmp->next->n_bytes;
 		tmp = tmp->next;
 	}
-	new = mmap(&(bucket + offset), sizeof(t_zone), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	printf("Offset  : %zu\n", offset);
+	new = (t_zone*)mmap(&b + offset, sizeof(t_zone), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 	new->n_bytes = size;
 	new->free = FALSE;
-	tmp->next = new;
-	b->new_ptr = new;
+	if (!b->zone)
+		b->zone = new;
+	else
+		tmp->next = new;
+	b->remaining -= size;
+	b->allocated += size;
 	return (new);
 }

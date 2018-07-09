@@ -40,8 +40,8 @@
  *	
 */
 
-#define N 		(2 * getpagesize())
-#define M 		(5 * getpagesize())
+#define N 		(1 * getpagesize())
+#define M 		(4 * getpagesize())
 
 /*
  *	Remplacer les Booleens
@@ -61,7 +61,7 @@ typedef struct 			s_bucket
 {
 	size_t				allocated;
 	size_t				remaining;
-	int					size;
+	size_t				size;
 	t_zone				*zone;
 	struct s_bucket		*next;
 }						t_bucket;
@@ -82,10 +82,10 @@ void					clea_buckets(void);
 void					ft_free(void *ptr);
 void					*ft_malloc(size_t size);
 void					*ft_realloc(void *ptr, size_t size);
-void					add_tiny_bucket(size_t size);
-void					add_small_bucket(size_t size);
-void					add_large_bucket(size_t size);
-void					new_zone(size_t size, t_bucket *b);
+t_bucket				*add_tiny_bucket(size_t size);
+t_bucket				*add_small_bucket(size_t size);
+t_bucket				*add_large_bucket(size_t size);
 t_bucket				*find_space(t_bucket *b, size_t size);
+t_zone					*new_zone(size_t size, t_bucket *b);
 
 #endif
