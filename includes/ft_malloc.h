@@ -25,39 +25,38 @@
 #		 include <stdio.h>
 
 /*
- *	Tailles des buckets
+**	Tailles des buckets
 */
 
-#define	TINY 	1
-#define	SMALL 	2
-#define	LARGE 	3
+# define TINY 	1
+# define SMALL 	2
+# define LARGE 	3
 
 /*
- *	N est la taille a partir de laquelle on cree un Small bucket au lieu
- *		d'un Tiny
- *	N est la taille a partir de laquelle on cree un Large bucket au lieu
- *		d'un Medium
- *	
+** N est la taille a partir de laquelle on cree un Small bucket au lieu
+** d'un Tiny
+** N est la taille a partir de laquelle on cree un Large bucket au lieu
+** d'un Medium
 */
 
-#define N 		(1 * getpagesize())
-#define M 		(4 * getpagesize())
+# define N	(1 * getpagesize())
+# define M	(4 * getpagesize())
 
 /*
- *	Remplacer les Booleens
+**	Remplacer les Booleens
 */
 
-#define	FALSE 	0
-#define	TRUE  	1
+# define FALSE 	0
+# define TRUE  	1
 
-typedef struct 			s_zone
+typedef struct			s_zone
 {
 	size_t				n_bytes;
 	int					free;
-	struct s_zone		*next;				
+	struct s_zone		*next;
 }						t_zone;
 
-typedef struct 			s_bucket
+typedef struct			s_bucket
 {
 	size_t				allocated;
 	size_t				remaining;
@@ -66,8 +65,7 @@ typedef struct 			s_bucket
 	struct s_bucket		*next;
 }						t_bucket;
 
-
-typedef struct 			s_global
+typedef struct			s_global
 {
 	t_zone				*new_ptr;
 	int					sum_allocated;
