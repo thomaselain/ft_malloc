@@ -12,7 +12,7 @@
 
 #include <ft_malloc.h>
 
-void		print_zones(t_bucket *b)
+void			print_zones(t_bucket *b)
 {
 	t_zone		*tmp;
 
@@ -44,8 +44,9 @@ t_zone			*new_zone(size_t size, t_bucket *b)
 		offset += tmp->next->n_bytes;
 		tmp = tmp->next;
 	}
-	new = (t_zone*)mmap(&b + offset, sizeof(t_zone), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	g.sum_allocated += size;
+	new = (t_zone*)mmap(&b + offset, sizeof(t_zone),
+		PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+	g_global.sum_allocated += size;
 	new->n_bytes = size;
 	new->free = FALSE;
 	if (!b->zone)

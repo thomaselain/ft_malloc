@@ -16,14 +16,14 @@ void		*ft_malloc(size_t size)
 {
 	t_bucket	*b;
 
-	g.is_set = TRUE;
+	g_global.is_set = TRUE;
 	if (size == 0)
-		return NULL;
-	if (size < N && !(b = find_space(g.tiny, size)))
+		return (NULL);
+	if (size < N && !(b = find_space(g_global.tiny, size)))
 	{
 		b = add_tiny_bucket(size);
 	}
-	else if (size < M && !(b = find_space(g.small, size)))
+	else if (size < M && !(b = find_space(g_global.small, size)))
 	{
 		b = add_small_bucket(size);
 	}
@@ -31,6 +31,6 @@ void		*ft_malloc(size_t size)
 	{
 		b = add_large_bucket(size);
 	}
-	g.new_ptr = new_zone(size, b);
-	return ((void*)g.new_ptr);
+	g_global.new_ptr = new_zone(size, b);
+	return ((void*)g_global.new_ptr);
 }

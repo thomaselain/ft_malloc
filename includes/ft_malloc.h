@@ -77,7 +77,7 @@ typedef struct 			s_global
 	t_bucket			*large;
 }						t_global;
 
-extern					t_global g;
+extern					t_global g_global;
 void					print_zones(t_bucket *b);
 void					clear_buckets(void);
 void					ft_free(void *ptr);
