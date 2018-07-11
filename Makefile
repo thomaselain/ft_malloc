@@ -25,6 +25,7 @@ SRC := 	main.c\
 		ft_malloc.c\
 		buckets.c\
 		zones.c\
+		show_alloc_mem.c\
 
 LIBS := libft/libft.a
 

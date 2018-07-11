@@ -53,7 +53,7 @@
 typedef struct 			s_zone
 {
 	size_t				n_bytes;
-	int					free;	
+	int					free;
 	struct s_zone		*next;				
 }						t_zone;
 
@@ -70,6 +70,7 @@ typedef struct 			s_bucket
 typedef struct 			s_global
 {
 	t_zone				*new_ptr;
+	int					sum_allocated;
 	int					is_set;
 	t_bucket			*tiny;
 	t_bucket			*small;
@@ -77,8 +78,8 @@ typedef struct 			s_global
 }						t_global;
 
 extern					t_global g;
-void 	print_debug(t_bucket *b);
-void					clea_buckets(void);
+void					print_zones(t_bucket *b);
+void					clear_buckets(void);
 void					ft_free(void *ptr);
 void					*ft_malloc(size_t size);
 void					*ft_realloc(void *ptr, size_t size);
@@ -87,5 +88,8 @@ t_bucket				*add_small_bucket(size_t size);
 t_bucket				*add_large_bucket(size_t size);
 t_bucket				*find_space(t_bucket *b, size_t size);
 t_zone					*new_zone(size_t size, t_bucket *b);
+void					show_alloc_mem(void);
+void					print_address_hex(void *p0);
+char					hex_digit(int v);
 
 #endif

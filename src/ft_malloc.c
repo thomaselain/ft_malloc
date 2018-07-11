@@ -16,6 +16,7 @@ void		*ft_malloc(size_t size)
 {
 	t_bucket	*b;
 
+	g.is_set = TRUE;
 	if (size == 0)
 		return NULL;
 	if (size < N && !(b = find_space(g.tiny, size)))
@@ -30,7 +31,6 @@ void		*ft_malloc(size_t size)
 	{
 		b = add_large_bucket(size);
 	}
-	// printf("adresse du bucket : %p\n", b);
 	g.new_ptr = new_zone(size, b);
 	return ((void*)g.new_ptr);
 }
