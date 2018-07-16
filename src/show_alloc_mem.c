@@ -52,13 +52,19 @@ void		show_alloc_mem(void)
 {
 	if (g_global.is_set != TRUE)
 		return ;
-	ft_putendl("TINY Allocations");
+	ft_putstr("TINY : ");
+	print_address_hex(g_global.tiny);
+	ft_putstr("\n");
 	print_each_zone(g_global.tiny);
-	ft_putendl("\nSMALL Allocations");
+	ft_putstr("\nSMALL : ");
+	print_address_hex(g_global.small);
+	ft_putstr("\n");
 	print_each_zone(g_global.small);
-	ft_putendl("\nLARGE Allocations");
+	ft_putstr("\nLARGE : ");
+	print_address_hex(g_global.large);
+	ft_putstr("\n");
 	print_each_zone(g_global.large);
 	ft_putstr("Total : ");
-	ft_putnendl(g_global.sum_allocated);
-	ft_putstr("bytes\n");
+	ft_putnbr(g_global.sum_allocated);
+	ft_putstr(" bytes\n");
 }

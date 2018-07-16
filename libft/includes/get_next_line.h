@@ -23,8 +23,8 @@
 
 typedef struct	s_save
 {
-	char		*save;
-	int			fd;
+    char		*save;
+    int			fd;
 }				t_save;
 
 int				get_next_line(const int fd, char **line);

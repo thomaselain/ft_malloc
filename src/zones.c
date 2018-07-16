@@ -21,7 +21,7 @@ void			print_zones(t_bucket *b)
 	{
 		print_address_hex(tmp);
 		ft_putstr(" - ");
-		print_address_hex(tmp + tmp->n_bytes);
+		print_address_hex((void*)((size_t)tmp + tmp->n_bytes));
 		ft_putstr(" : ");
 		ft_putnbr(tmp->n_bytes);
 		ft_putstr(" bytes\n");
@@ -29,31 +29,25 @@ void			print_zones(t_bucket *b)
 	}
 }
 
-t_zone			*new_zone(size_t size, t_bucket *b)
+t_zone			*new_zone(size_t size, void **b)
 {
-	t_zone	*new;
-	t_zone	*tmp;
-	size_t	offset;
+	t_zone		*new;
+	t_bucket	*b_start;
 
-	tmp = b->zone;
-	offset = 0;
-	if (tmp)
-		offset = tmp->n_bytes;
-	while (tmp && tmp->next)
-	{
-		offset += tmp->next->n_bytes;
-		tmp = tmp->next;
-	}
-	new = (t_zone*)mmap(&b + offset, sizeof(t_zone),
-		PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	g_global.sum_allocated += size;
+	new = *b;
+	b_start = *b;
+	*b += sizeof(t_bucket) + sizeof(t_zone);
+
 	new->n_bytes = size;
+	new->next = NULL;
 	new->free = FALSE;
-	if (!b->zone)
-		b->zone = new;
+	g_global.sum_allocated += size;
+	if (!b_start->zone)
+		b_start->zone = new;
 	else
-		tmp->next = new;
-	b->remaining -= size;
-	b->allocated += size;
+	{
+		new->next = b_start->zone;
+		b_start->zone = new;
+	}
 	return (new);
 }

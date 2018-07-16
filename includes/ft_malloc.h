@@ -39,8 +39,8 @@
 ** d'un Medium
 */
 
-# define N	(1 * getpagesize())
-# define M	(4 * getpagesize())
+# define N	(8 * getpagesize())
+# define M	(32 * getpagesize())
 
 /*
 **	Remplacer les Booleens
@@ -81,11 +81,9 @@ void					clear_buckets(void);
 void					ft_free(void *ptr);
 void					*ft_malloc(size_t size);
 void					*ft_realloc(void *ptr, size_t size);
-t_bucket				*add_tiny_bucket(size_t size);
-t_bucket				*add_small_bucket(size_t size);
-t_bucket				*add_large_bucket(size_t size);
+t_bucket				*add_bucket(t_bucket **b, size_t size, size_t bucket_size);
 t_bucket				*find_space(t_bucket *b, size_t size);
-t_zone					*new_zone(size_t size, t_bucket *b);
+t_zone					*new_zone(size_t size, void **b);
 void					show_alloc_mem(void);
 void					print_address_hex(void *p0);
 char					hex_digit(int v);

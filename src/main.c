@@ -25,15 +25,27 @@ int main(int ac, char **av)
 	printf("\e[31mN = %d\nM = %d\e[0m\n\n", N, M);
 
 	ft_malloc(10000000);
+	ft_malloc(10000000);
+	ft_malloc(10000000);
+	ft_malloc(10000000);
 	ft_malloc(1000000);
+	ft_malloc(100000);
+	ft_malloc(100000);
+	ft_malloc(100000);
 	ft_malloc(100000);
 	ft_malloc(10000);
 	ft_malloc(1000);
 	ft_malloc(100);
 	ft_malloc(10);
+	ft_malloc(10);
+	ft_malloc(10);
 	ft_malloc(1);
+	ft_malloc(1);
+	ft_malloc(1);
+	ft_malloc(0);
 
 	show_alloc_mem();
+
 	// int1 = (int*)ft_malloc(sizeof(int)*6000);
 	// int2 = (int*)ft_malloc(sizeof(int)*12);
 	// void1 = (void*)ft_malloc(sizeof(void)*2);
